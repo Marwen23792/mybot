@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ProdKeys — Dashboard</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-name">ProdKeys</div>
+        <div class="brand-sub">Dashboard revendeur</div>
+      </div>
+
+      <div class="nav-link active" data-panel="accueil">🏠 Accueil</div>
+      <div class="nav-link" data-panel="orders">📦 Commandes &amp; produits</div>
+      <div class="nav-link" data-panel="customers">👥 Clients</div>
+      <div class="nav-link" data-panel="deposits">💳 Dépôts</div>
+
+      <div class="nav-link nav-logout" onclick="logout()">🚪 Déconnexion</div>
+    </aside>
+
+    <main class="content">
+      <!-- Accueil -->
+      <section class="panel active" id="panel-accueil">
+        <h1>Accueil</h1>
+        <div id="panel-accueil-body"></div>
+      </section>
+
+      <!-- Commandes + produits -->
+      <section class="panel" id="panel-orders">
+        <h1>Commandes</h1>
+        <div class="card">
+          <div class="toolbar">
+            <select id="orders-status-filter">
+              <option value="">Tous les statuts</option>
+              <option value="delivered">Livrées</option>
+              <option value="pending">En attente</option>
+              <option value="awaiting_payment">En attente de paiement</option>
+              <option value="failed">Échouées</option>
+              <option value="refunded">Remboursées</option>
+            </select>
+          </div>
+          <table>
+            <thead><tr><th>Client</th><th>Produit</th><th>Montant</th><th>Profit</th><th>Statut</th><th>Date</th></tr></thead>
+            <tbody id="orders-tbody"></tbody>
+          </table>
+          <div class="pagination" id="orders-pagination"></div>
+        </div>
+
+        <h1>Produits &amp; marges</h1>
+        <div class="card">
+          <div class="card-header"><h2>Catalogue synchronisé depuis ProdSeller</h2></div>
+          <div class="toolbar">
+            <input type="number" id="bulk-margin-pct" step="0.1" min="0" placeholder="Marge % (ex: 15)" style="width:160px" />
+            <button class="btn-sm edit" onclick="applyBulkMargin()">Appliquer à tous</button>
+          </div>
+          <table>
+            <thead><tr><th>Produit</th><th>Prix ProdSeller</th><th>Marge %</th><th>Votre prix de vente</th><th>Stock</th><th>Statut</th><th></th></tr></thead>
+            <tbody id="products-tbody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Clients -->
+      <section class="panel" id="panel-customers">
+        <h1>Clients</h1>
+        <div class="card">
+          <div class="toolbar">
+            <input type="text" id="customers-search" placeholder="Rechercher par username ou ID Telegram" style="width:280px" />
+          </div>
+          <table>
+            <thead><tr><th>Client</th><th>Telegram ID</th><th>Solde</th><th>Total dépensé</th><th>Commandes</th><th>Statut</th><th></th></tr></thead>
+            <tbody id="customers-tbody"></tbody>
+          </table>
+          <div class="pagination" id="customers-pagination"></div>
+        </div>
+      </section>
+
+      <!-- Dépôts -->
+      <section class="panel" id="panel-deposits">
+        <h1>Dépôts</h1>
+        <div class="card">
+          <div class="toolbar">
+            <select id="deposits-status-filter">
+              <option value="pending" selected>En attente</option>
+              <option value="">Tous les statuts</option>
+              <option value="completed">Complétés</option>
+              <option value="rejected">Rejetés</option>
+            </select>
+          </div>
+          <table>
+            <thead><tr><th>Client</th><th>Montant</th><th>Méthode</th><th>ID transaction</th><th>Statut</th><th>Date</th><th>Action</th></tr></thead>
+            <tbody id="deposits-tbody"></tbody>
+          </table>
+          <div class="pagination" id="deposits-pagination"></div>
+        </div>
+
+        <h1>Méthodes de dépôt</h1>
+        <div class="card">
+          <table>
+            <thead><tr><th>Méthode</th><th>Montant minimum ($)</th><th>Activée</th><th></th></tr></thead>
+            <tbody id="deposit-methods-tbody"></tbody>
+          </table>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><h2>Ajouter une méthode</h2></div>
+          <div class="toolbar" style="flex-wrap:wrap">
+            <input type="text" id="new-method-slug" placeholder="slug (ex: cryptobot)" style="width:150px" />
+            <input type="text" id="new-method-name" placeholder="Nom affiché (ex: CryptoBot)" style="width:180px" />
+            <input type="number" id="new-method-min" step="0.01" min="0" placeholder="Min $" style="width:90px" />
+            <input type="text" id="new-method-instructions" placeholder="Instructions (optionnel)" style="width:260px" />
+            <button class="btn-sm edit" onclick="createDepositMethod()">Créer</button>
+          </div>
+          <p class="muted" style="padding:0 20px 16px;font-size:.8rem">
+            Slugs reconnus par le bot : <code>binance_pay</code>, <code>cryptobot</code>, <code>usdt_bep20</code> (vérification automatique ou instructions dynamiques). Tout autre slug fonctionne en dépôt manuel générique.
+          </p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/dashboard.js"></script>
+  <script src="assets/js/orders.js"></script>
+  <script src="assets/js/customers.js"></script>
+  <script src="assets/js/deposits.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

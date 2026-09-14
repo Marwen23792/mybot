@@ -1,0 +1,23 @@
+{
+  "name": "prodkeys",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Dashboard revendeur + bot Telegram consommant l'API ProdSeller",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "seed:admin": "node scripts/seedAdmin.js"
+  },
+  "dependencies": {
+    "axios": "^1.7.7",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.7.0",
+    "telegraf": "^4.16.3"
+  },
+  "author": "",
+  "license": "ISC"
+}
